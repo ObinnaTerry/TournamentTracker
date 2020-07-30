@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using TrackerLibrary;
+using TrackerLibrary.DataAccess;
+using TrackerLibrary.Models;
 
 namespace TrackerUI
 {
@@ -26,10 +28,13 @@ namespace TrackerUI
                     prizeAmountValue.Text, 
                     prizePercentageValue.Text);
 
-                foreach (IDataConnection db in GlobalConfig.Connections) // Loop through the different databases
-                {
-                    db.CreatePrize(model);
-                }
+                GlobalConfig.Connection.CreatePrize(model);
+               
+
+                placeNameValue.Text = "";
+                placeNumberValue.Text = "";
+                prizeAmountValue.Text = "0";
+                prizePercentageValue.Text = "0";
             }
             else
             {
@@ -41,7 +46,7 @@ namespace TrackerUI
         {
             bool output = true;
             int placeNumber = 0;
-            bool placeNumberValidNumber = int.TryParse(placeNameValue.Text, out placeNumber);
+            bool placeNumberValidNumber = int.TryParse(placeNumberValue.Text, out placeNumber);
 
             if (placeNumberValidNumber == false)
             {
@@ -75,6 +80,11 @@ namespace TrackerUI
             }
 
             if (prizePercentage < 0 || prizePercentage > 100)
+            {
+                output = false;
+            }
+
+            if (prizeAmount > 0 && prizePercentage > 0)
             {
                 output = false;
             }
