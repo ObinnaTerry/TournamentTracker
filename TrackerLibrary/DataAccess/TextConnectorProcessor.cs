@@ -9,11 +9,21 @@ namespace TrackerLibrary.DataAccess.TextHelpers
 {
     public static class TextConnectorProcessor
     {
+        /// <summary>
+        /// Concats file name with save location.
+        /// </summary>
+        /// <param name="fileName">Name of file to be used for storage.</param>
+        /// <returns>Full file path.</returns>
         public static string FullFilePath(this string fileName)
         {
             return $"{ GlobalConfig.GetFilePath() }\\{ fileName }";
         }
 
+        /// <summary>
+        /// Loads target file. 
+        /// </summary>
+        /// <param name="file">Target file name.</param>
+        /// <returns>Loaded target file in list form.</returns>
         public static List<string> LoadFile(this string file)
         {
             if (File.Exists(file) == false)
@@ -24,6 +34,11 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             return File.ReadAllLines(file).ToList();
         }
 
+        /// <summary>
+        /// Converts loaded string list to a list of models. 
+        /// </summary>
+        /// <param name="lines">List of string</param>
+        /// <returns>List of models.</returns>
         public static List<PrizeModel> ConvertToPrizeModels(this List<string> lines)
         {
             List<PrizeModel> output = new List<PrizeModel>();
@@ -46,6 +61,11 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             return output;
         }
 
+        /// <summary>
+        /// Converts list of modles to a list of strings and saves the result to a file.
+        /// </summary>
+        /// <param name="models">List of models to be converted to list of strings.</param>
+        /// <param name="fileName">Target file name</param>
         public static void SaveToPrizeFile(this List<PrizeModel> models, string fileName)
         {
             List<string> lines = new List<string>();
