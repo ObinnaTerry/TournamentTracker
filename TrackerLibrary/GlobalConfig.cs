@@ -31,11 +31,22 @@ namespace TrackerLibrary
         {
             var builder = new ConfigurationBuilder()
                                 .SetBasePath(Directory.GetCurrentDirectory())
-                                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
             string strConnection = builder.Build().GetConnectionString("Tournament");
 
             return strConnection;
+        }
+
+        public static string GetFilePath()
+        {
+            var builder = new ConfigurationBuilder()
+                                .SetBasePath(Directory.GetCurrentDirectory())
+                                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            string filePath = builder.Build().GetSection("FileParameter").GetSection("filePath").Value;
+
+            return filePath;
         }
     }
 }
