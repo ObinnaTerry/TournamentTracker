@@ -13,9 +13,13 @@ namespace TrackerUI
 {
     public partial class CreatePrizeForm : Form
     {
-        public CreatePrizeForm()
+        private readonly IPrizeRequester callingForm;
+
+        public CreatePrizeForm(IPrizeRequester caller)
         {
             InitializeComponent();
+
+            callingForm = caller;
         }
 
         private void createPrizeButton_Click(object sender, EventArgs e)
@@ -28,13 +32,16 @@ namespace TrackerUI
                     prizeAmountValue.Text, 
                     prizePercentageValue.Text);
 
-                GlobalConfig.Connection.CreatePrize(model);
-               
+                GlobalConfig.Connection.CreatePrize(model); //Save model to database (SQL or textfile based on intialised database)
 
-                placeNameValue.Text = "";
-                placeNumberValue.Text = "";
-                prizeAmountValue.Text = "0";
-                prizePercentageValue.Text = "0";
+                callingForm.PrizeComplete(model);
+
+                this.Close();
+
+                //placeNameValue.Text = "";
+                //placeNumberValue.Text = "";
+                //prizeAmountValue.Text = "0";
+                //prizePercentageValue.Text = "0";
             }
             else
             {
@@ -42,6 +49,10 @@ namespace TrackerUI
             }
         }
 
+        /// <summary>
+        /// Validates form input data.
+        /// </summary>
+        /// <returns>bool</returns>
         private bool ValidateForm()
         {
             bool output = true;

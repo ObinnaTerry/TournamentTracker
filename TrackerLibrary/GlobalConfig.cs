@@ -24,7 +24,7 @@ namespace TrackerLibrary
             }
             else if (db == DatabaseType.TextFile)
             {
-                TextConnector text = new TextConnector();
+                 TextConnector text = new TextConnector();
                 Connection = text;
             }
         }
